@@ -1,19 +1,20 @@
 {
-  "name": "morning-alexa",
+  "name": "ChinaProvinceQuiz",
   "version": "1.0.0",
-  "description": "Giving out positivity every morning!",
+  "description": "A quiz about the provinces in China and their capitals.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "alexa",
-    "skill", //change later
-    "trivia"
+    "skill",
+    "fact"
   ],
-  "author": "Tiffany Yuen",
+  "author": "Amazon.com",
   "license": "Apache-2.0",
   "dependencies": {
-    "alexa-sdk": "^1.0.6"
+    "alexa-sdk": "^1.0.0",
+    "voice-insights-sdk": "^1.2.2"
   }
 }
