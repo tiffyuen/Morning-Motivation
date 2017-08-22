@@ -1,7 +1,7 @@
 {
-  "name": "ChinaProvinceQuiz",
+  "name": "MorningMotivation",
   "version": "1.0.0",
-  "description": "A quiz about the provinces in China and their capitals.",
+  "description": "Give out motivational quotes for some positivity for the start of the day.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,7 @@
     "skill",
     "fact"
   ],
-  "author": "Amazon.com",
+  "author": "Tiffany Yuen",
   "license": "Apache-2.0",
   "dependencies": {
     "alexa-sdk": "^1.0.0",
