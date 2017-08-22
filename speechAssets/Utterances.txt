@@ -1,4 +1,0 @@
-AMAZON.StartOverIntent start app
-AMAZON.StartOverIntent new quote
-AMAZON.StartOverIntent start
-AMAZON.StartOverIntent start new quote
