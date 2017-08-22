@@ -1,1 +1,19 @@
-
+{
+  "name": "morning-alexa",
+  "version": "1.0.0",
+  "description": "Giving out positivity every morning!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "alexa",
+    "skill", #change later
+    "trivia"
+  ],
+  "author": "Tiffany Yuen",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "alexa-sdk": "^1.0.6"
+  }
+}
