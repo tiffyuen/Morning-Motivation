@@ -1,4 +1,4 @@
-AMAZON.StartOverIntent start game
-AMAZON.StartOverIntent new game
+AMAZON.StartOverIntent start app
+AMAZON.StartOverIntent new quote
 AMAZON.StartOverIntent start
-AMAZON.StartOverIntent start new game
+AMAZON.StartOverIntent start new quote
