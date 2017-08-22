@@ -2,7 +2,7 @@
 var APP_ID = "amzn1.ask.skill.2fbb06b7-6727-4231-9c85-8753d52f36fa";  // TODO replace with your app ID (OPTIONAL).
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
-//var GAME_LENGTH = 5;  // The number of questions per trivia game.
+var GAME_LENGTH = 5;  // The number of questions per trivia game.
 var QUOTE_STATES = {
     APP: "_APPMODE", // Asking trivia questions.
     START: "_STARTMODE", // Entry point, start the game.
@@ -29,24 +29,25 @@ var languageString = {
             "HELP_UNHANDLED": "Say yes for another quote, or no to exit the app.",
             "START_UNHANDLED": "Would you like some motivation for the start of the day?",
             "NEW_GAME_MESSAGE": "Welcome to %s. ",
-            "WELCOME_MESSAGE": "Morning! No matter how bad things are, you can at least be happy that you work up this morning -- D.L. Hughley."
-            "TRIVIA_UNHANDLED": "Would you like another motivational quote for the start of the day?",
-            //"ANSWER_CORRECT_MESSAGE": "correct. ",
+            "WELCOME_MESSAGE": "Morning! No matter how bad things are, you can at least be happy that you work up this morning -- D.L. Hughley.",
+            "TRIVIA_UNHANDLED": "Would you like another motivational quote for the start of the day?"
+        }
+    },
+    "en-US": {
+        "translation": {
+            "QUESTIONS" : quotes["QUOTES_EN_US"],
+            "GAME_NAME" : "Morning Alexa" // Be sure to change this for your skill.
+        }
+    }
+};
+
+//"ANSWER_CORRECT_MESSAGE": "correct. ",
             //"ANSWER_WRONG_MESSAGE": "wrong. ",
             //"CORRECT_ANSWER_MESSAGE": "The correct answer is %s: %s. ",
             //"ANSWER_IS_MESSAGE": "That answer is ",
             //"TELL_QUESTION_MESSAGE": "Question %s. %s ",
             //"GAME_OVER_MESSAGE": "You got %s out of %s questions correct. Thank you for playing!",
             //"SCORE_IS_MESSAGE": "Your score is %s. "
-        }
-    },
-    "en-US": {
-        "translation": {
-            "QUESTIONS" : quotes["QUOTES_EN"],
-            "GAME_NAME" : "Morning Alexa" // Be sure to change this for your skill.
-        }
-    }
-};
 
 var Alexa = require("alexa-sdk");
 var APP_ID = "amzn1.ask.skill.2fbb06b7-6727-4231-9c85-8753d52f36fa";  // TODO replace with your app ID (OPTIONAL).
@@ -124,18 +125,18 @@ var triviaStateHandlers = Alexa.CreateStateHandler(QUOTE_STATES.APP, {
         handleUserGuess.call(this, true);
     },*/
     "AMAZON.StartOverIntent": function () {
-        this.handler.state = GAME_STATES.START;
+        this.handler.state = QUOTE_STATES.START;
         this.emitWithState("StartGame", false);
     },
     "AMAZON.RepeatIntent": function () {
         this.emit(":ask", this.attributes["speechOutput"], this.attributes["repromptText"]);
     },
     "AMAZON.HelpIntent": function () {
-        this.handler.state = GAME_STATES.HELP;
+        this.handler.state = QUOTE_STATES.HELP;
         this.emitWithState("helpTheUser", false);
     },
     "AMAZON.StopIntent": function () {
-        this.handler.state = GAME_STATES.HELP;
+        this.handler.state = QUOTE_STATES.HELP;
         var speechOutput = this.t("STOP_MESSAGE");
         this.emit(":ask", speechOutput, speechOutput);
     },
@@ -151,7 +152,7 @@ var triviaStateHandlers = Alexa.CreateStateHandler(QUOTE_STATES.APP, {
     }
 });
 
-var helpStateHandlers = Alexa.CreateStateHandler(GAME_STATES.HELP, {
+var helpStateHandlers = Alexa.CreateStateHandler(QUOTE_STATES.HELP, {
     "helpTheUser": function (newGame) {
         var askMessage = newGame ? this.t("ASK_MESSAGE_START") : this.t("REPEAT_QUESTION_MESSAGE") + this.t("STOP_MESSAGE");
         var speechOutput = this.t("HELP_MESSAGE", GAME_LENGTH) + askMessage;
@@ -159,7 +160,7 @@ var helpStateHandlers = Alexa.CreateStateHandler(GAME_STATES.HELP, {
         this.emit(":ask", speechOutput, repromptText);
     },
     "AMAZON.StartOverIntent": function () {
-        this.handler.state = GAME_STATES.START;
+        this.handler.state = QUOTE_STATES.START;
         this.emitWithState("StartGame", false);
     },
     "AMAZON.RepeatIntent": function () {
@@ -172,10 +173,10 @@ var helpStateHandlers = Alexa.CreateStateHandler(GAME_STATES.HELP, {
     },
     "AMAZON.YesIntent": function() {
         if (this.attributes["speechOutput"] && this.attributes["repromptText"]) {
-            this.handler.state = GAME_STATES.TRIVIA;
+            this.handler.state = QUOTE_STATES.APP;
             this.emitWithState("AMAZON.RepeatIntent");
         } else {
-            this.handler.state = GAME_STATES.START;
+            this.handler.state = QUOTE_STATES.START;
             this.emitWithState("StartGame", false);
         }
     },
@@ -199,7 +200,7 @@ var helpStateHandlers = Alexa.CreateStateHandler(GAME_STATES.HELP, {
     }
 });
 
-function handleUserGuess(userGaveUp) {
+/*function handleUserGuess(userGaveUp) {
     //var answerSlotValid = isAnswerSlotValid(this.event.request.intent);
     var speechOutput = "";
     var speechOutputAnalysis = "";
@@ -210,7 +211,7 @@ function handleUserGuess(userGaveUp) {
     var correctAnswerText = this.attributes.correctAnswerText;
     var translatedQuestions = this.t("QUESTIONS");
 
-    /*if (answerSlotValid && parseInt(this.event.request.intent.slots.Answer.value) == this.attributes["correctAnswerIndex"]) {
+    if (answerSlotValid && parseInt(this.event.request.intent.slots.Answer.value) == this.attributes["correctAnswerIndex"]) {
         currentScore++;
         speechOutputAnalysis = this.t("ANSWER_CORRECT_MESSAGE");
     } else {
@@ -219,7 +220,7 @@ function handleUserGuess(userGaveUp) {
         }
 
         speechOutputAnalysis += this.t("CORRECT_ANSWER_MESSAGE", correctAnswerIndex, correctAnswerText);
-    }*/
+    }
 
     // Check if we can exit the game session after GAME_LENGTH questions (zero-indexed)
     if (this.attributes["currentQuestionIndex"] == GAME_LENGTH - 1) {
@@ -235,9 +236,9 @@ function handleUserGuess(userGaveUp) {
         var questionIndexForSpeech = currentQuestionIndex + 1;
         var repromptText = this.t("TELL_QUESTION_MESSAGE", questionIndexForSpeech.toString(), spokenQuestion);
 
-        /*for (var i = 0; i < ANSWER_COUNT; i++) {
+        for (var i = 0; i < ANSWER_COUNT; i++) {
             repromptText += (i+1).toString() + ". " + roundAnswers[i] + ". "
-        }*/
+        }
 
         speechOutput += userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
         speechOutput += speechOutputAnalysis + this.t("SCORE_IS_MESSAGE", currentScore.toString()) + repromptText;
@@ -255,7 +256,7 @@ function handleUserGuess(userGaveUp) {
         this.emit(":askWithCard", speechOutput, repromptText, this.t("GAME_NAME"), repromptText);
     }
 }
-
+*/
 function populateGameQuestions(translatedQuestions) {
     var gameQuestions = [];
     var indexList = [];
@@ -288,7 +289,7 @@ function populateGameQuestions(translatedQuestions) {
  * correctAnswerTargetLocation variable. Note that you can have as many answers as you want but
  * only ANSWER_COUNT will be selected.
  * */
-function populateRoundAnswers(gameQuestionIndexes, correctAnswerIndex, correctAnswerTargetLocation, translatedQuestions) {
+/*function populateRoundAnswers(gameQuestionIndexes, correctAnswerIndex, correctAnswerTargetLocation, translatedQuestions) {
     //var answers = [];
     //var answersCopy = translatedQuestions[gameQuestionIndexes[correctAnswerIndex]][Object.keys(translatedQuestions[gameQuestionIndexes[correctAnswerIndex]])[0]].slice();
     //var index = answersCopy.length;
@@ -315,10 +316,10 @@ function populateRoundAnswers(gameQuestionIndexes, correctAnswerIndex, correctAn
     answers[0] = answers[correctAnswerTargetLocation];
     answers[correctAnswerTargetLocation] = temp;
     return answers;
-}
+}*/
 
-function isAnswerSlotValid(intent) {
+/*function isAnswerSlotValid(intent) {
     var answerSlotFilled = intent && intent.slots && intent.slots.Answer && intent.slots.Answer.value;
     var answerSlotIsInt = answerSlotFilled && !isNaN(parseInt(intent.slots.Answer.value));
     return answerSlotIsInt && parseInt(intent.slots.Answer.value) < (ANSWER_COUNT + 1) && parseInt(intent.slots.Answer.value) > 0;
-}
+}*/
