@@ -1,0 +1,9 @@
+GetNewQuoteIntent a quote
+GetNewQuoteIntent tell me a quote
+GetNewQuoteIntent give me a quote
+GetNewQuoteIntent give me some quotes
+GetNewQuoteIntent tell me something
+GetNewQuoteIntent give me something
+GetNewQuoteIntent i want a quote
+GetNewQuoteIntent let me hear a quote
+GetNewQuoteIntent start
