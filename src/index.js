@@ -1,5 +1,5 @@
 "use strict";
-var APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+var APP_ID = "amzn1.ask.skill.2fbb06b7-6727-4231-9c85-8753d52f36fa";  // TODO replace with your app ID (OPTIONAL).
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
 //var GAME_LENGTH = 5;  // The number of questions per trivia game.
@@ -45,17 +45,11 @@ var languageString = {
             "QUESTIONS" : quotes["QUOTES_EN"],
             "GAME_NAME" : "Morning Alexa" // Be sure to change this for your skill.
         }
-    },
-    "en-GB": {
-        "translation": {
-            "QUESTIONS" : quotes["QUOTES_EN"],
-            "GAME_NAME" : "Morning Alexa" // Be sure to change this for your skill.
-        }
     }
 };
 
 var Alexa = require("alexa-sdk");
-var APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+var APP_ID = "amzn1.ask.skill.2fbb06b7-6727-4231-9c85-8753d52f36fa";  // TODO replace with your app ID (OPTIONAL).
 
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
